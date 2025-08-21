@@ -1,8 +1,14 @@
 /** Run this Anonymous Apex via the SFDX CLI or from the Developer Console */
-List<ConnectedApplication> connectedApps = [SELECT Name FROM ConnectedApplication];
-List<OAuthToken> oauthTokens = [SELECT AppName FROM OauthToken];
+List<ConnectedApplication> connectedApps = new List<ConnectedApplication>();
+List<OAuthToken> oauthTokens = new List<OAuthToken>();
 Set<String> authorizedApps = new Set<String>();
 Set<String> installedApps = new Set<String>();
+for(ConnectedApplication app : [SELECT Name FROM ConnectedApplication]) {
+    connectedApps.add(app);
+}
+for(OAuthToken token : [SELECT AppName FROM OauthToken]) {
+    oauthTokens.add(token);
+}
 for (OAuthToken token : oauthTokens) {
 	// Any app w a token has been 'authorized' in the org
     authorizedApps.add(token.AppName);
